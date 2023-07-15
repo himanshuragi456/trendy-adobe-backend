@@ -9,7 +9,7 @@ const capitalizeFirstLetterEachWord = require('../utils/capitalizeFirstLetterEac
 
 // Index controller
 const get_index = (req, res) => {
-  res.render('index', { title: 'Coming Soon', userName: res.locals.user.userName });
+  res.render('index', { title: 'Coming Soon', userName: res.locals.user.userName ?? '' });
 };
 
 // Transactions controller
@@ -23,13 +23,13 @@ const get_transactions_cod_for_payment = async (req, res) => {
     res.render('admin/transactions-cod/view_transactions', {
       transactionsData,
       title: 'Transactions',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   } catch (error) {
     res.render('admin/error/view_error', {
       error,
       title: 'Error',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   }
 };
@@ -44,13 +44,13 @@ const get_transactions_online_payment = async (req, res) => {
     res.render('admin/transactions-online/view_transactions', {
       transactionsData,
       title: 'Transactions',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   } catch (error) {
     res.render('admin/error/view_error', {
       error,
       title: 'Error',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   }
 };
@@ -65,13 +65,13 @@ const get_transactions_incomplete_payment = async (req, res) => {
     res.render('admin/transactions-incomplete/view_transactions', {
       transactionsData,
       title: 'Transactions',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   } catch (error) {
     res.render('admin/error/view_error', {
       error,
       title: 'Error',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   }
 };
@@ -86,13 +86,13 @@ const get_transactions_all_payment = async (req, res) => {
     res.render('admin/transactions-all/view_transactions', {
       transactionsData,
       title: 'Transactions',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   } catch (error) {
     res.render('admin/error/view_error', {
       error,
       title: 'Error',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   }
 };
@@ -114,13 +114,13 @@ const get_all_products = async (req, res) => {
       productsData,
       alert,
       title: 'Products',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   } catch (error) {
     res.render('admin/error/view_error', {
       error,
       title: 'Error',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   }
 };
@@ -134,7 +134,7 @@ const get_add_products = (req, res) => {
   res.render('admin/add-product/view_add_product', {
     alert,
     title: 'Add Product',
-    userName: res.locals.user.userName,
+    userName: res.locals.user?.userName ?? '',
   });
 };
 
@@ -204,13 +204,13 @@ const get_update_products = async (req, res) => {
       price: getPriceNumber(productData.price),
       alert,
       title: 'Edit Product',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   } catch (error) {
     res.render('admin/error/view_error', {
       error,
       title: 'Error',
-      userName: res.locals.user.userName,
+      userName: res.locals.user?.userName ?? '',
     });
   }
 };
