@@ -10,8 +10,11 @@
             </div>
             <div class="form-group">
               <label for="exampleFormControlFile1">Image</label>
-              <img src="<%= productData.images %>" alt="Drone" style="width: 100px; height: auto;" class="d-flex mb-2">
-              <input name="images" type="file" accept="image/*" class="form-control-file" id="image">
+              <% entries = productData.images.map(function(elem) {
+                return '<img style="width: 100px; height: auto;" class="d-flex mb-2 mr-2" src="' + elem + '" alt="dsd"/>';
+            }) -%>
+            <p style="display: flex;"><%- entries.join("") %></p>
+              <input name="images" type="file" accept="image/*" class="form-control-file" id="image" multiple>
               <small class="form-text text-muted">* Images can only be under 500kB.</small>
             </div>            
             <div class="form-group">

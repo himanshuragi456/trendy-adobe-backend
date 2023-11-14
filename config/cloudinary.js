@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const multerUploads = multer({ storage }).single('images');
+const multerUploads = multer({ storage }).array('images');
 // single's argument (here is 'images') must be the same with the name attribute value on client's html tag
 
 module.exports = {
