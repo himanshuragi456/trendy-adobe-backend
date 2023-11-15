@@ -1,8 +1,9 @@
 const { Router } = require("express");
 const getPriceNumber = require("../utils/getPriceNumber");
-const Transaction = require("../models/Transaction");
-const Razorpay = require("razorpay");
-const crypto = require('crypto');
+const priceFormat = require("../utils/priceFormat");
+const stripe = require("stripe")(
+  "sk_test_51NMpM9SHofiqml0oLlwVOd76idnccvQhVb6bO2YBAed3zhICYBtkex9RHpwrEiendpGV9pWXzcEjw5HMBa2cUws900jRCz7BIg"
+);
 
 const calculateOrderAmount = (checkoutState = []) => {
   const itemsPriceArray = [];
@@ -16,65 +17,29 @@ const calculateOrderAmount = (checkoutState = []) => {
     itemsPriceArray.push(items.quantity * getPriceNumber(items.price))
   );
   Subtotal = itemsPriceArray.reduce((total, num) => total + num);
+  // Replace this constant with a calculation of the order's amount
   // Calculate the order total on the server to prevent
   // people from directly manipulating the amount on the client
 
-  finalAmount = Subtotal + 100;
+  finalAmount = Subtotal + TotalItems * 31000 + TotalItems * 10000;
   return finalAmount * 100;
 };
 
 const router = Router();
 
-router.post("/orders", async (req, res) => {
-  try {
-    const instance = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID, // YOUR RAZORPAY KEY
-      key_secret: process.env.RAZORPAY_SECRET, // YOUR RAZORPAY SECRET
-    });
+router.post("/intent", async (req, res) => {
+  // Create a PaymentIntent with the order amount and currency
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: calculateOrderAmount(req.body),
+    currency: "inr",
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
 
-    const options = {
-      amount: calculateOrderAmount(req.body),
-      currency: "INR",
-      receipt: "receipt_order_74394",
-    };
-
-    const order = await instance.orders.create(options);
-
-    if (!order) return res.status(500).send("Some error occured");
-
-    res.json(order);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-router.post("/success/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const {
-      orderCreationId,
-      razorpayPaymentId,
-      razorpayOrderId,
-      razorpaySignature,
-    } = req.body;
-
-    const shasum = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET);
-    shasum.update(`${orderCreationId}|${razorpayPaymentId}`);
-    const digest = shasum.digest('hex');
-
-    if (digest !== razorpaySignature)
-      return res.status(400).json({ msg: 'Transaction not legit!' });
-
-    await Transaction.findByIdAndUpdate(id, req.body);
-
-    res.json({
-      msg: "success",
-      orderId: razorpayOrderId,
-      paymentId: razorpayPaymentId,
-    });
-  } catch (error) {
-    res.status(500).send(error);
-  }
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
 });
 
 module.exports = router;
