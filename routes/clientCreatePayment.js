@@ -21,7 +21,7 @@ const calculateOrderAmount = (checkoutState = []) => {
   // Calculate the order total on the server to prevent
   // people from directly manipulating the amount on the client
 
-  finalAmount = Subtotal + TotalItems * 31000 + TotalItems * 10000;
+  finalAmount = Subtotal + TotalItems * 100;
   return finalAmount * 100;
 };
 
