@@ -24,6 +24,22 @@
                 <small class="form-text text-muted">* Input number only.</small>
             </div>
             <div class="form-group">
+              <label for="category">Product Type</label>
+              <select name="category" class="form-control" id="category" required>
+                  <option value="Sofa">Sofa</option>
+                  <option value="Chair">Chair</option>
+                  <option value="Bed">Bed</option>
+                  <option value="Table">Table</option>
+                  <option value="Desk">Desk</option>
+                  <option value="Wardrobe">Wardrobe</option>
+              </select>
+            </div> 
+            <div class="form-group">
+              <label for="count">Available Stock</label>
+              <input name="count" type="number" class="form-control" id="count" placeholder="Enter available stock" required>
+              <small class="form-text text-muted">* Input number only.</small>
+            </div>
+            <div class="form-group">
               <label for="description">Description</label>
               <textarea name="description" class="form-control" id="description" rows="3" placeholder="Enter product's description" required></textarea>
             </div>

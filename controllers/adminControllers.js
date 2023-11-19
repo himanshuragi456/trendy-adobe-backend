@@ -138,7 +138,7 @@ const get_add_products = (req, res) => {
 
 const post_add_products = async (req, res) => {
   try {
-    const { name, price, description } = req.body;
+    const { name, price, description, category, count } = req.body;
 
     // Uploading image to Cloudinary and get the secure url
 
@@ -158,6 +158,8 @@ const post_add_products = async (req, res) => {
       images: urls,
       price: priceFormat(price),
       description,
+      category,
+      count,
     }).then((response) => {
       // Flash success alert
       req.flash("alertMessage", "Success Add New Product");
@@ -223,7 +225,7 @@ const get_update_products = async (req, res) => {
 const put_update_products = async (req, res) => {
   const { id } = req.params;
   try {
-    const { name, price, description } = req.body;
+    const { name, price, description, category, count } = req.body;
     let urls = [];
 
     if (req.file || req.files.length > 0) {
@@ -246,6 +248,8 @@ const put_update_products = async (req, res) => {
         images: urls ? urls : undefined,
         price: priceFormat(price),
         description,
+        category,
+        count,
       },
       { new: true }
     ).then((response) => {
