@@ -18,6 +18,9 @@
                       <th>Name</th>
                       <th>Image</th>                      
                       <th>Price</th>
+                      <th>Category</th>
+                      <th>Stock</th>
+                      <th>Price</th>
                       <th>Description</th>
                       <th>Action</th>                      
                   </tr>
@@ -31,6 +34,8 @@
                             <img src="<%= items.images[0] || items.images %>" alt="Drone" style="width: 100px; height: auto;">
                         </td>
                         <td><%= items.price %></td>
+                        <td><%= items.category %></td>
+                        <td><%= items.count %></td>
                         <td><%= items.description %></td>
                         <td style="display: flex;">                            
                             <a 

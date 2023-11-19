@@ -17,6 +17,14 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  category: {
+    type: String,
+    required: true,
+  },
+  count: {
+    type: String,
+    required: true,
+  },
   dateAdded: {
     type: Date,
     default: Date.now,
